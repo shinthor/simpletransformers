@@ -1214,8 +1214,23 @@ class ClassificationModel:
                         else:
                             outputs = model(**inputs)
                             tmp_eval_loss, logits = outputs[:2]
-                        embedding_outputs, layer_hidden_states = outputs[2][0], outputs[2][1:]
+                            
+                        for curr_row in outputs:
+                            try:
+                                print("Row Length:  ", len(curr_row))
+                                for curr_column in curr_row:
+                                    try:
+                                        print("**Column Length:  ", len(curr_column))
+                                        for curr_dep in curr_column:
+                                            print("***Dep:      ", len(curr_dep))
+                                    except BaseException:
+                                        print("No depth for this output")
+                            except BaseException:
+                                print("no column for this output")
+                                
 
+                        embedding_outputs, layer_hidden_states = outputs[2][0], outputs[2][1:]
+                        
                         if multi_label:
                             logits = logits.sigmoid()
 

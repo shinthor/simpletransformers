@@ -1214,15 +1214,20 @@ class ClassificationModel:
                         else:
                             outputs = model(**inputs)
                             tmp_eval_loss, logits = outputs[:2]
-                            
+                        i1 = 0
                         for curr_row in outputs:
+                            i1 += 1
                             try:
-                                print("Row Length:  ", len(curr_row))
+                                print(i1, "Row Length:  ", len(curr_row))
+                                j1 = 0
                                 for curr_column in curr_row:
                                     try:
-                                        print("**Column Length:  ", len(curr_column))
+                                        k1 = 0
+                                        print(j1, "**Column Length:  ", len(curr_column))
                                         for curr_dep in curr_column:
-                                            print("***Dep:      ", len(curr_dep))
+                                            k1 += 1
+                                            print(k1, "***Dep:      ", len(curr_dep))
+                                            break
                                     except BaseException:
                                         print("No depth for this output")
                             except BaseException:
@@ -1240,24 +1245,22 @@ class ClassificationModel:
 
                     nb_eval_steps += 1
 
-                    if preds is None:
-                        preds = logits.detach().cpu().numpy()
-                        out_label_ids = inputs["labels"].detach().cpu().numpy()
-                        all_layer_hidden_states = np.array(
-                            [state.detach().cpu().numpy() for state in layer_hidden_states]
-                        )
-                        all_embedding_outputs = embedding_outputs.detach().cpu().numpy()
-                    else:
-                        # preds = np.append(preds, logits.detach().cpu().numpy(), axis=0)
-                        # out_label_ids = np.append(out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0)
-                        all_layer_hidden_states = np.append(
-                            all_layer_hidden_states,
-                            np.array([state.detach().cpu().numpy() for state in layer_hidden_states]),
-                            axis=1,
-                        )
-                        all_embedding_outputs = np.append(
-                            all_embedding_outputs, embedding_outputs.detach().cpu().numpy(), axis=0
-                        )
+                if preds is None:
+                    preds = logits.detach().cpu().numpy()
+                    out_label_ids = inputs["labels"].detach().cpu().numpy()
+                    all_layer_hidden_states = np.array([state.detach().cpu().numpy() for state in layer_hidden_states])
+                    all_embedding_outputs = embedding_outputs.detach().cpu().numpy()
+                else:
+                    preds = np.append(preds, logits.detach().cpu().numpy(), axis=0)
+                    out_label_ids = np.append(out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0)
+                    all_layer_hidden_states = np.append(
+                        all_layer_hidden_states,
+                        np.array([state.detach().cpu().numpy() for state in layer_hidden_states]),
+                        axis=1,
+                    )
+                    all_embedding_outputs = np.append(
+                        all_embedding_outputs, embedding_outputs.detach().cpu().numpy(), axis=0
+                    )
             else:
                 n_batches = len(eval_dataloader)
                 for i, batch in enumerate(tqdm(eval_dataloader, disable=args.silent)):

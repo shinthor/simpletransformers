@@ -137,3 +137,5 @@ dmypy.json
 .pyre/
 #Stale Notebooks
 Untitled.ipynb
+
+.idea

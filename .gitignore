@@ -137,3 +137,7 @@ dmypy.json
 .pyre/
 #Stale Notebooks
 Untitled.ipynb
+
+
+# Pycharm config files
+.idea

@@ -36,6 +36,6 @@ setup(
         "wandb",
         "streamlit",
         "sentencepiece",
-        "pytorch>=1.6.0"
+        "torch>=1.6.0"
     ],
 )

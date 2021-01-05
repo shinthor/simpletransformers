@@ -132,6 +132,10 @@ class T5Model:
         if not use_cuda:
             self.args.fp16 = False
 
+        if self.args.special_tokens_list:
+            self.tokenizer.add_tokens(self.args.special_tokens_list, special_tokens=True)
+            self.model.resize_token_embeddings(len(self.tokenizer))
+
         self.args.model_type = model_type
         if model_name is None:
             self.args.model_name = "T5_from_scratch"
@@ -601,7 +605,8 @@ class T5Model:
                     **kwargs,
                 )
 
-                self.save_model(output_dir_current, optimizer, scheduler, results=results)
+                if args.save_eval_checkpoints:
+                    self.save_model(output_dir_current, optimizer, scheduler, results=results)
 
                 training_progress_scores["global_step"].append(global_step)
                 training_progress_scores["train_loss"].append(current_loss)

@@ -278,6 +278,10 @@ class ClassificationModel:
                 model_name, do_lower_case=self.args.do_lower_case, **kwargs
             )
 
+        if self.args.special_tokens_list:
+            self.tokenizer.add_tokens(self.args.special_tokens_list, special_tokens=True)
+            self.model.resize_token_embeddings(len(self.tokenizer))
+
         self.args.model_name = model_name
         self.args.model_type = model_type
 
@@ -1402,8 +1406,8 @@ class ClassificationModel:
                         )
                         all_embedding_outputs = embedding_outputs.detach().cpu().numpy()
                     else:
-                        # preds = np.append(preds, logits.detach().cpu().numpy(), axis=0)
-                        # out_label_ids = np.append(out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0)
+                        preds = np.append(preds, logits.detach().cpu().numpy(), axis=0)
+                        out_label_ids = np.append(out_label_ids, inputs["labels"].detach().cpu().numpy(), axis=0)
                         all_layer_hidden_states = np.append(
                             all_layer_hidden_states,
                             np.array([state.detach().cpu().numpy() for state in layer_hidden_states]),

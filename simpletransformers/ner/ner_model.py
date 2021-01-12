@@ -239,6 +239,10 @@ class NERModel:
             self.tokenizer = tokenizer_class.from_pretrained(
                 model_name, do_lower_case=self.args.do_lower_case, normalization=True, **kwargs
             )
+        elif model_type == "auto":
+            self.tokenizer = tokenizer_class.from_pretrained(
+                model_name, **kwargs
+            )
         else:
             self.tokenizer = tokenizer_class.from_pretrained(
                 model_name, do_lower_case=self.args.do_lower_case, **kwargs
@@ -694,6 +698,7 @@ class NERModel:
                                             if not self.args.evaluate_during_training
                                             else training_progress_scores,
                                         )
+                        model.train()
 
             epoch_number += 1
             output_dir_current = os.path.join(output_dir, "checkpoint-{}-epoch-{}".format(global_step, epoch_number))

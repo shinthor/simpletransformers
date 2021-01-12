@@ -4,6 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.51.13] - 2021-01-11
+
+### Fixed
+
+- Fixed bug introduced in 0.51.12 with multiclass classification
+
+## [0.51.12] - 2021-01-11
+
+### Changed
+
+- Added Area under the ROC curve (AUROC) and the Area under the Precision-Recall curve (AUPRC) as default metrics for binary classification [@manueltonneau](https://github.com/manueltonneau)
+
+### Fixed
+
+- Fixed issues with models not being set to train modd when evaluating while training [nilboy](https://github.com/nilboy)
+
+## [0.51.11] - 2021-01-09
+
+### Changed
+
+- Removed `do_lower_case` when using `AutoTokenizer`
+
 ## [0.51.10] - 2020-12-29
 
 ### Fixed
@@ -1346,7 +1368,13 @@ Model checkpoint is now saved for all epochs again.
 - This CHANGELOG file to hopefully serve as an evolving example of a standardized open source project CHANGELOG.
 
 
-[0.51.10]: https://github.com/ThilinaRajapakse/simpletransformers/compare/3ce3651...HEAD
+[0.51.13]: https://github.com/ThilinaRajapakse/simpletransformers/compare/4a5c295...HEAD
+
+[0.51.12]: https://github.com/ThilinaRajapakse/simpletransformers/compare/36fc7a6...4a5c295
+
+[0.51.11]: https://github.com/ThilinaRajapakse/simpletransformers/compare/3ce3651...36fc7a6
+
+[0.51.10]: https://github.com/ThilinaRajapakse/simpletransformers/compare/3ce3651...3ce3651
 
 [0.51.9]: https://github.com/ThilinaRajapakse/simpletransformers/compare/3cfc400...3ce3651
 

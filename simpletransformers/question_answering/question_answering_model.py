@@ -192,7 +192,10 @@ class QuestionAnsweringModel:
             except AttributeError:
                 raise AttributeError("fp16 requires Pytorch >= 1.6. Please update Pytorch or turn off fp16.")
 
-        self.tokenizer = tokenizer_class.from_pretrained(model_name, do_lower_case=self.args.do_lower_case, **kwargs)
+        if model_type == "auto":
+            self.tokenizer = tokenizer_class.from_pretrained(model_name, **kwargs)
+        else:
+            self.tokenizer = tokenizer_class.from_pretrained(model_name, do_lower_case=self.args.do_lower_case, **kwargs)
 
         if self.args.special_tokens_list:
             self.tokenizer.add_tokens(self.args.special_tokens_list, special_tokens=True)
@@ -705,6 +708,7 @@ class QuestionAnsweringModel:
                                             if not self.args.evaluate_during_training
                                             else training_progress_scores,
                                         )
+                        model.train()
 
             epoch_number += 1
             output_dir_current = os.path.join(output_dir, "checkpoint-{}-epoch-{}".format(global_step, epoch_number))
